@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weaviate.Client", "Weaviate.Client\Weaviate.Client.csproj", "{0DC7AE13-A7E8-4A1E-B667-65253815D93C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weaviate.Client.UnitTest", "Weaviate.Client.UnitTest\Weaviate.Client.UnitTest.csproj", "{01374870-9CAA-4BB6-9730-E459C1B5946F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weaviate.Client.IntegrationTest", "Weaviate.Client.IntegrationTest\Weaviate.Client.IntegrationTest.csproj", "{B4E77B8E-386A-4D4D-A5D7-EDD1134D4FE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DC7AE13-A7E8-4A1E-B667-65253815D93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DC7AE13-A7E8-4A1E-B667-65253815D93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DC7AE13-A7E8-4A1E-B667-65253815D93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DC7AE13-A7E8-4A1E-B667-65253815D93C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01374870-9CAA-4BB6-9730-E459C1B5946F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01374870-9CAA-4BB6-9730-E459C1B5946F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01374870-9CAA-4BB6-9730-E459C1B5946F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01374870-9CAA-4BB6-9730-E459C1B5946F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E77B8E-386A-4D4D-A5D7-EDD1134D4FE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E77B8E-386A-4D4D-A5D7-EDD1134D4FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E77B8E-386A-4D4D-A5D7-EDD1134D4FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E77B8E-386A-4D4D-A5D7-EDD1134D4FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

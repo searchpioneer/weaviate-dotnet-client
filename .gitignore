@@ -1,0 +1,6 @@
+**/obj/
+**/bin/
+**/.idea/
+**/*.DotSettings.User
+
+notes.txt
