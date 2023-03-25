@@ -5,7 +5,7 @@ on: [ push ]
 jobs:
 
   unit-tests:
-    name: Unit
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,6 +23,7 @@ jobs:
         name: Test
 
   integration-tests:
+    name: Integration Tests
     runs-on: ubuntu-latest
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
