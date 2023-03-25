@@ -7,9 +7,6 @@ jobs:
   tests:
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     strategy:
@@ -27,7 +24,7 @@ jobs:
           password: ${{secrets.DOCKER_PASSWORD}}
       - name: Docker compose launch
         run: |
-          docker-compose -f ../tests-integration/docker-compose.yml up -d
+          docker-compose -f tests-integration/docker-compose.yml up -d
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1.7.2
         with:
