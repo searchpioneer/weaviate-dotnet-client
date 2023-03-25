@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Graph API operations
+/// Graph operations
 /// </summary>
 public class GraphApi
 {

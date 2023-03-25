@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Schema API operations
+/// Schema operations
 /// </summary>
 public class SchemaApi
 {

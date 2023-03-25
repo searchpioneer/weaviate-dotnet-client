@@ -16,11 +16,11 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-///     Thrown on client and server version mismatch
+/// Thrown if server version is not available
 /// </summary>
-public class VersionMismatchException : Exception
+public class ServerVersionMissingException : Exception
 {
-	public VersionMismatchException(string message) : base(message)
+	public ServerVersionMissingException(string message) : base(message)
 	{
 	}
 }

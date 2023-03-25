@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Data API operations
+/// Data operations
 /// </summary>
 public class DataApi
 {

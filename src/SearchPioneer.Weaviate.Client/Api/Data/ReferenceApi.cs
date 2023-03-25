@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Reference API operations
+/// Reference operations
 /// </summary>
 public class ReferenceApi
 {

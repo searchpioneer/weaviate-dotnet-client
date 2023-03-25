@@ -17,7 +17,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-///     Backup API operations
+///     Backup operations
 /// </summary>
 public class BackupApi
 {

@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Batch API operations
+/// Batch operations
 /// </summary>
 public class BatchApi
 {

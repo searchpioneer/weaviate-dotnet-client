@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Contextionary API operations
+/// Contextionary operations
 /// </summary>
 public class ContextionaryApi
 {

@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Miscellaneous API operations
+/// Miscellaneous operations
 /// </summary>
 public class MiscApi
 {

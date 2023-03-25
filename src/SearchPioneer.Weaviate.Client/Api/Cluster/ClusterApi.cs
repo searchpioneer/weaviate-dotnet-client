@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Cluster API operations
+/// Cluster operations
 /// </summary>
 public class ClusterApi
 {

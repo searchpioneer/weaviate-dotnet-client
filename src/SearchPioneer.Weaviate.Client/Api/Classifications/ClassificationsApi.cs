@@ -16,7 +16,7 @@
 namespace SearchPioneer.Weaviate.Client;
 
 /// <summary>
-/// Classifications API operations
+/// Classifications operations
 /// </summary>
 public class ClassificationsApi
 {
