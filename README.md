@@ -1,12 +1,14 @@
-![Tests status](https://github.com/searchpioneer/weaviate-dotnet-client/actions/workflows/tests.yml/badge.svg)
+[<img align="right" width="250" height="auto" src="https://searchpioneer.com/assets/svg/logos/logo.svg">](https://searchpioneer.com/)
 
-# Search Pioneer
+Learn more about our services and expertise: [https://searchpioneer.com/](https://searchpioneer.com/)
 
-## Weaviate .NET client
+# Weaviate .NET client
 
 A Microsoft .NET native client for [Weaviate](https://weaviate.io/)
 
-### Usage
+![Tests status](https://github.com/searchpioneer/weaviate-dotnet-client/actions/workflows/tests.yml/badge.svg)
+
+## Usage
 
 You need to add the dependancy: `SearchPioneer.Weaviate.Client`.
 
