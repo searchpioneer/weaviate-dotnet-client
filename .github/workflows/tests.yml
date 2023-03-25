@@ -23,6 +23,7 @@ jobs:
         name: Test
 
   integration-tests:
+    needs: unit-tests
     name: Integration Tests
     runs-on: ubuntu-latest
     env:
@@ -55,6 +56,7 @@ jobs:
         name: Test
         
   test-reports:
+    needs: integration-tests
     name: Test Reports
     runs-on: ubuntu-latest
     steps:
