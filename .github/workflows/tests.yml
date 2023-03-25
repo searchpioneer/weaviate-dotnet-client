@@ -2,6 +2,11 @@ name: Tests
 
 on: [ push ]
 
+permissions:
+    contents: read
+    checks: write
+    id-token: write
+    
 jobs:
 
   tests:
