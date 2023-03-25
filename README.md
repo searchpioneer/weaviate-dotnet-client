@@ -1,6 +1,6 @@
 ![Tests status](https://github.com/searchpioneer/weaviate-dotnet-client/actions/workflows/tests.yml/badge.svg)
 
-# Weaviate .NET client
+# Search Pioneer Weaviate .NET client
 
 A Microsoft .NET native client for [Weaviate](https://weaviate.io/)
 

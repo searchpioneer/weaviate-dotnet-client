@@ -4,3 +4,4 @@
 **/*.DotSettings.User
 
 notes.txt
+build/output/
