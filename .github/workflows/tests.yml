@@ -4,18 +4,43 @@ on: [ push ]
 
 jobs:
 
-  tests:
+  unit-tests:
+    name: Unit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.113'
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - run: ./build.sh test
+        name: Test
 
+  integration-tests:
     runs-on: ubuntu-latest
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     strategy:
       matrix:
         dotnet-version: [ '6.0.x' ]
-
     steps:
-
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.113'
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Login to Docker Hub
         if: ${{ !github.event.pull_request.head.repo.fork }}
         uses: docker/login-action@v2
@@ -25,13 +50,19 @@ jobs:
       - name: Docker compose launch
         run: |
           docker-compose -f tests-integration/docker-compose.yml up -d
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v1.7.2
+      - run: ./build.sh integrate
+        name: Test
+        
+  test-reports:
+    name: Test Reports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Results
+        if: always()
+        uses: mikepenz/action-junit-report@v2
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal
+          report_paths: 'build/output/junit-*.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_failure: true
+          require_tests: true
+          check_name: Test Results
