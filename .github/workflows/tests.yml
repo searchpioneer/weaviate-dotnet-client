@@ -8,9 +8,8 @@ permissions:
     id-token: write
     
 jobs:
-
   tests:
-    name: Unit Tests
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
