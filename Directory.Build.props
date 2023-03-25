@@ -34,10 +34,4 @@
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <NoWarn>$(NoWarn);IDT001;IDT002</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-    <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1" PrivateAssets="All" />
-    <PackageReference Include="SauceControl.InheritDoc" Version="1.3.0" PrivateAssets="All" />
-  </ItemGroup>
 </Project>
