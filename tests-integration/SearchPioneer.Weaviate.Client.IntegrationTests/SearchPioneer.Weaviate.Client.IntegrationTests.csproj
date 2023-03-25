@@ -3,13 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DebugSymbols>True</DebugSymbols>
+    <IsTestProject>True</IsTestProject>
     <Nullable>annotations</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\SearchPioneer.Weaviate.Client\SearchPioneer.Weaviate.Client.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
@@ -23,11 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="docker-compose-test.yml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SearchPioneer.Weaviate.Client\SearchPioneer.Weaviate.Client.csproj" />
+  </ItemGroup>
 </Project>

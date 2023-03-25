@@ -2,7 +2,6 @@
   <LoggerRunSettings>
     <Loggers>
         <Logger friendlyName="Console" enabled="True"/>
-        <Logger friendlyName="pretty" enabled="True"/>
     </Loggers>
   </LoggerRunSettings>
 </RunSettings>
