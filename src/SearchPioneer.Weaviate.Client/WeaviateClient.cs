@@ -19,6 +19,8 @@ namespace SearchPioneer.Weaviate.Client;
 
 public class WeaviateClient
 {
+	private const string ClientVersion = "1.17.0";
+
 	private readonly DbVersionSupport _dbVersionSupport;
     private readonly Transport _transport;
 
@@ -26,10 +28,14 @@ public class WeaviateClient
     {
         _transport = new(config, flurlClient);
 
-        // Get the version from the server
+        // Get the version from the server and check compatible
         var serverVersion = Misc.Meta().Result?.Version;
         if (serverVersion == null)
 	        throw new ArgumentNullException(nameof(serverVersion), "Unable to fetch version from server");
+
+        // Check client and server version match
+        if (serverVersion != ClientVersion)
+	        throw new VersionMismatchException($"Client version is {ClientVersion}, server version is {serverVersion}");
 
         _dbVersionSupport = new(serverVersion);
     }
