@@ -27,8 +27,12 @@ public class Transport
     {
         _config = config;
         _flurlClient = flurlClient;
-        _flurlClient.Headers.Add("Content-Type", "application/json");
         _flurlClient.Settings.AllowedHttpStatusRange = "*";
+        _flurlClient.Headers.Add("Content-Type", "application/json");
+        foreach (var header in _config.GetHeaders())
+        {
+	        _flurlClient.Headers.Add(header.Key, header.Value);
+        }
     }
 
     private async Task EnrichResult<TResult>(ApiResponse<TResult> result, IFlurlResponse response)
