@@ -24,7 +24,7 @@ namespace SearchPioneer.Weaviate.Client;
 /// </summary>
 public class WeaviateClient
 {
-	private const string ClientVersion = "1.17.0";
+	private const string ClientVersion = "1.18.0";
 	private static readonly Config DefaultConfig = new("http", "localhost:8080");
 
 	private readonly DbVersionSupport _dbVersionSupport;

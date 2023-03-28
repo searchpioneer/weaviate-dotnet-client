@@ -19,8 +19,8 @@ namespace SearchPioneer.Weaviate.Client.IntegrationTests;
 
 public abstract class TestBase
 {
-	protected const string ExpectedVersion = "1.17.0";
-	protected const string ExpectedGithubHash = "37d3b17";
+	protected const string ExpectedVersion = "1.18.0";
+	protected const string ExpectedGithubHash = "8606543";
 
 	private static readonly HttpClient HttpClient = new();
 
