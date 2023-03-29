@@ -15,17 +15,11 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
-public class VectorIndexConfig
+public enum Distance
 {
-    public Distance Distance { get; set; }
-    public int CleanupIntervalSeconds { get; set; }
-    public int DynamicEfFactor { get; set; }
-    public int DynamicEfMax { get; set; }
-    public int DynamicEfMin { get; set; }
-    public int Ef { get; set; }
-    public int EfConstruction { get; set; }
-    public int FlatSearchCutoff { get; set; }
-    public int MaxConnections { get; set; }
-    public bool Skip { get; set; }
-    public long VectorCacheMaxObjects { get; set; }
+	Cosine,
+	DotProduct,
+	L2Squared,
+	Hamming,
+	Manhattan
 }

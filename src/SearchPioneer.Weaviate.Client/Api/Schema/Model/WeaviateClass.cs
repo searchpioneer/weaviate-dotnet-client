@@ -19,12 +19,12 @@ public class WeaviateClass
 {
     public string Class { get; set; }
     public string Description { get; set; }
-    public InvertedIndexConfig InvertedIndexConfig { get; set; }
+    public InvertedIndexConfig? InvertedIndexConfig { get; set; }
     public object ModuleConfig { get; set; }
-    public Property[] Properties { get; set; }
-    public VectorIndexConfig VectorIndexConfig { get; set; }
-    public ShardingConfig ShardingConfig { get; set; }
+    public Property[]? Properties { get; set; }
+    public VectorIndexConfig? VectorIndexConfig { get; set; }
+    public ShardingConfig? ShardingConfig { get; set; }
     public string VectorIndexType { get; set; }
     public string Vectorizer { get; set; }
-    public ReplicationConfig ReplicationConfig { get; set; }
+    public ReplicationConfig? ReplicationConfig { get; set; }
 }

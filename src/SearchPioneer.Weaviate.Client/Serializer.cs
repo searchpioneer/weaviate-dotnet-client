@@ -29,6 +29,7 @@ public class Serializer
             new ShardStatusJsonConverter(),
             new StatusJsonConverter(),
             new ConsistencyLevelJsonConverter(),
+            new DistanceJsonConverter(),
             new TokenizationJsonConverter(),
             new BackendJsonConverter(),
             new BackupStatusJsonConverter(),
