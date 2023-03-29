@@ -33,10 +33,7 @@ public class Transport
         {
 	        _flurlClient.Headers.Add(header.Key, header.Value);
         }
-        if (config.Timeout.HasValue)
-        {
-	        _flurlClient.WithTimeout(config.Timeout.Value);
-        }
+        _flurlClient.WithTimeout(config.Timeout);
     }
 
     private async Task EnrichResult<TResult>(ApiResponse<TResult> result, IFlurlResponse response)

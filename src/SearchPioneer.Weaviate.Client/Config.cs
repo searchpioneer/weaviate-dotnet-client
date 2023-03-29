@@ -50,5 +50,8 @@ public class Config
 
     public Dictionary<string, string> GetHeaders() => _headers;
 
-    public TimeSpan? Timeout { get; set; }
+    /// <summary>
+    /// HTTP timeout, defaults to 60 seconds.
+    /// </summary>
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(60);
 }
