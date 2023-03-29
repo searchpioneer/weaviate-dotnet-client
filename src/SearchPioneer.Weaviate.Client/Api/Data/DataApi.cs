@@ -111,8 +111,8 @@ public class DataApi
 
     public ApiResponse<WeaviateObjectResponse> Create(CreateObjectRequest request)
     {
-	    var path = _objectsPath.BuildCreate(new(), out var warnings);
-        var weaviateObject = GetWeaviateObject(request);
+	    var path = GetCreatePath(request, out var warnings);
+	    var weaviateObject = GetWeaviateObject(request);
         var response = _transport.PostAsync<WeaviateObject, WeaviateObjectResponse>(path, weaviateObject).GetAwaiter().GetResult();
         response.Warnings.AddRange(warnings);
         return response;
@@ -120,7 +120,7 @@ public class DataApi
 
     public async Task<ApiResponse<WeaviateObjectResponse>> CreateAsync(CreateObjectRequest request, CancellationToken cancellationToken = default)
     {
-	    var path = _objectsPath.BuildCreate(new(), out var warnings);
+	    var path = GetCreatePath(request, out var warnings);
         var weaviateObject = GetWeaviateObject(request);
         var response = await _transport.PostAsync<WeaviateObject, WeaviateObjectResponse>(path, weaviateObject, cancellationToken).ConfigureAwait(false);
         response.Warnings.AddRange(warnings);
@@ -210,22 +210,6 @@ public class DataApi
         return getApiResponse;
     }
 
-    private static ObjectPathParams GetObjectPathParams(GetObjectRequest request)
-    {
-	    var param = new ObjectPathParams
-	    {
-		    Id = request.Id,
-		    Class = request.Class,
-		    Limit = request.Limit,
-		    Additional = request.Additional != null
-			    ? request.Additional.ToArray()
-			    : Enumerable.Empty<string>().ToArray(),
-		    ConsistencyLevel = request.ConsistencyLevel,
-		    NodeName = request.NodeName
-	    };
-	    return param;
-    }
-
     private static WeaviateObject GetWeaviateObject(ValidateObjectRequest request)
     {
 	    var weaviateObject = new WeaviateObject
@@ -262,6 +246,22 @@ public class DataApi
 	    return obj;
     }
 
+    private static ObjectPathParams GetObjectPathParams(GetObjectRequest request)
+    {
+	    var param = new ObjectPathParams
+	    {
+		    Id = request.Id,
+		    Class = request.Class,
+		    Limit = request.Limit,
+		    Additional = request.Additional != null
+			    ? request.Additional.ToArray()
+			    : Enumerable.Empty<string>().ToArray(),
+		    ConsistencyLevel = request.ConsistencyLevel,
+		    NodeName = request.NodeName
+	    };
+	    return param;
+    }
+
     private string GetCheckPath(CheckObjectRequest request, out List<string> warnings)
     {
 	    var path = _objectsPath.BuildCheck(new()
@@ -277,7 +277,8 @@ public class DataApi
 	    var path = _objectsPath.BuildDelete(new()
 	    {
 		    Id = request.Id,
-		    Class = request.Class
+		    Class = request.Class,
+		    ConsistencyLevel = request.ConsistencyLevel
 	    }, out warnings);
 	    return path;
     }
@@ -287,7 +288,17 @@ public class DataApi
 	    var path = _objectsPath.BuildUpdate(new()
 	    {
 		    Id = request.Id,
-		    Class = request.Class
+		    Class = request.Class,
+		    ConsistencyLevel = request.ConsistencyLevel
+	    }, out warnings);
+	    return path;
+    }
+
+    private string GetCreatePath(CreateObjectRequest request, out List<string> warnings)
+    {
+	    var path = _objectsPath.BuildUpdate(new()
+	    {
+		    ConsistencyLevel = request.ConsistencyLevel,
 	    }, out warnings);
 	    return path;
     }

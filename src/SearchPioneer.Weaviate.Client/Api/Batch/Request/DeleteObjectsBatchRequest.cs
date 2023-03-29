@@ -21,4 +21,5 @@ public class DeleteObjectsBatchRequest
     public bool? DryRun { get; set; }
     public BatchOutput? Output { get; set; }
     public Where? Where { get; set; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

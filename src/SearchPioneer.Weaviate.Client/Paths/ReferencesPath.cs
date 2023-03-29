@@ -23,7 +23,16 @@ public class ReferencesPath
 
     public ReferencesPath(DbVersionSupport support) => _support = support;
 
-    public string Build(ReferencePathParams? pathParams, out List<string> warnings)
+    public string BuildCreate(ReferencePathParams? pathParams, out List<string> warnings) =>
+	    Build(pathParams, out warnings);
+
+    public string BuildDelete(ReferencePathParams? pathParams, out List<string> warnings) =>
+	    Build(pathParams, out warnings);
+
+    public string BuildReplace(ReferencePathParams? pathParams, out List<string> warnings) =>
+	    Build(pathParams, out warnings);
+
+    private string Build(ReferencePathParams? pathParams, out List<string> warnings)
     {
         var warns = new List<string>();
         const string value = "/objects";
@@ -50,6 +59,9 @@ public class ReferencesPath
 
         path.Append("/references");
         if (!string.IsNullOrWhiteSpace(pathParams.Property)) path.Append('/').Append(pathParams.Property.Trim());
+
+        if (pathParams.ConsistencyLevel != null)
+	        path.Append($"?consistency_level={ConsistencyLevelJsonConverter.ToString(pathParams.ConsistencyLevel.Value)}");
 
         warnings = warns;
         return path.ToString();

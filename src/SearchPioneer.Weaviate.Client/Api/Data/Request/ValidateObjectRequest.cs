@@ -19,11 +19,8 @@ public class ValidateObjectRequest
 {
     public ValidateObjectRequest(string id, string @class)
     {
-        if (id == null) throw new ArgumentNullException(nameof(id));
-        if (@class == null) throw new ArgumentNullException(nameof(@class));
-
-        Id = id;
-        Class = @class;
+	    Id = id ?? throw new ArgumentNullException(nameof(id));
+        Class = @class ?? throw new ArgumentNullException(nameof(@class));
     }
 
     public string Id { get; }

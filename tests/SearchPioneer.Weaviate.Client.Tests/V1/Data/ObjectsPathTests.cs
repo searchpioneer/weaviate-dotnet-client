@@ -58,7 +58,8 @@ public class ObjectsPathTests
 		Id = "someId",
 		Limit = 100,
 		Additional = new[] { "additional1", "additional2" },
-		NodeName = "node1"
+		NodeName = "node1",
+		ConsistencyLevel = ConsistencyLevel.Quorum
 	};
 
 	[Fact]
@@ -139,7 +140,7 @@ public class ObjectsPathTests
 			new ObjectsPath(support.Object).BuildGetOne(NodeNameClassId, out _));
 		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&consistency_level=QUORUM",
 			new ObjectsPath(support.Object).BuildGetOne(ConsistencyLevelAllParams, out _));
-		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&node_name=node1",
+		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&consistency_level=QUORUM&node_name=node1",
 			new ObjectsPath(support.Object).BuildGetOne(NodeNameAllParams, out _));
 	}
 
@@ -165,7 +166,7 @@ public class ObjectsPathTests
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(IdParams, out _));
 		Assert.Equal("/objects?include=additional1,additional2&limit=100",
 			new ObjectsPath(support.Object).BuildGet(AllParams, out _));
-		Assert.Equal("/objects?limit=100&class=someClass",
+		Assert.Equal("/objects?class=someClass&limit=100",
 			new ObjectsPath(support.Object).BuildGet(ClassQueryParams, out _));
 	}
 

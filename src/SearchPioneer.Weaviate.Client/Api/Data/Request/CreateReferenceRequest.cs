@@ -21,4 +21,5 @@ public class CreateReferenceRequest
     public string? Id { get; set; }
     public SingleRef? ReferencePayload { get; set; }
     public string? ReferenceProperty { get; set; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

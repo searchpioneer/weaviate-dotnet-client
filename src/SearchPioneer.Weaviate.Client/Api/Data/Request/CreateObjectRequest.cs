@@ -12,23 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text.Json.Serialization;
-
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
 public class CreateObjectRequest
 {
-    public CreateObjectRequest(string @class)
-    {
-        if (@class == null) throw new ArgumentNullException(nameof(@class));
+    public CreateObjectRequest(string @class) =>
+	    Class = @class ?? throw new ArgumentNullException(nameof(@class));
 
-        Class = @class;
-    }
-
-    [JsonPropertyName("uuid")] public string? Id { get; set; }
-
+    public string? Id { get; set; }
     public string? Class { get; }
     public Dictionary<string, object>? Properties { get; set; }
     public float[]? Vector { get; set; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

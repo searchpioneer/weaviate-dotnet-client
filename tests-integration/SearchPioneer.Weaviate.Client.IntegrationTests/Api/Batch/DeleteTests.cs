@@ -32,7 +32,8 @@ public class DeleteTests : TestBase
 			Where = new() { Operator = Operator.Equal, Path = new[] { "name" }, ValueString = "Hawaii" },
 			DryRun = true,
 			Class = CLASS_NAME_PIZZA,
-			Output = BatchOutput.Verbose
+			Output = BatchOutput.Verbose,
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 
 		Assert.True(dryRun.HttpStatusCode == 200);
@@ -64,7 +65,8 @@ public class DeleteTests : TestBase
 			Where = new() { Operator = Operator.Equal, Path = new[] { "name" }, ValueString = "Hawaii" },
 			DryRun = true,
 			Class = CLASS_NAME_PIZZA,
-			Output = BatchOutput.Minimal
+			Output = BatchOutput.Minimal,
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 
 		Assert.True(dryRun.HttpStatusCode == 200);
@@ -96,7 +98,8 @@ public class DeleteTests : TestBase
 				Path = new[] { "_creationTimeUnix" },
 				ValueString = DateTimeOffset.Now.AddSeconds(60).ToUnixTimeMilliseconds().ToString()
 			},
-			Class = CLASS_NAME_PIZZA
+			Class = CLASS_NAME_PIZZA,
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 
 		Assert.True(batch.HttpStatusCode == 200);
@@ -129,7 +132,8 @@ public class DeleteTests : TestBase
 				ValueString = DateTimeOffset.Now.AddSeconds(60).ToUnixTimeMilliseconds().ToString()
 			},
 			Class = CLASS_NAME_PIZZA,
-			Output = BatchOutput.Verbose
+			Output = BatchOutput.Verbose,
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 
 		Assert.True(batch.HttpStatusCode == 200);

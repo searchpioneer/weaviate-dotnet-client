@@ -34,7 +34,8 @@ public class DeleteTests : TestBase
 			{
 				{ "name", "Hawaii" },
 				{ "description", "Universally accepted to be the best pizza ever created." }
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(hawaiian.HttpStatusCode == 200);
 
@@ -48,12 +49,15 @@ public class DeleteTests : TestBase
 					"description",
 					"Used by humans when their inferior genetics are attacked by microscopic organisms."
 				}
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(chickensoup.HttpStatusCode == 200);
 
-		var pizzaDelete = Client.Data.Delete(new(pizzaId) { Class = CLASS_NAME_PIZZA });
-		var soupDelete = Client.Data.Delete(new(soupId) { Class = CLASS_NAME_SOUP });
+		var pizzaDelete =
+			Client.Data.Delete(new(pizzaId) { Class = CLASS_NAME_PIZZA, ConsistencyLevel = ConsistencyLevel.Quorum });
+		var soupDelete =
+			Client.Data.Delete(new(soupId) { Class = CLASS_NAME_SOUP, ConsistencyLevel = ConsistencyLevel.Quorum });
 
 		Assert.True(pizzaDelete.HttpStatusCode == 204);
 		Assert.True(soupDelete.HttpStatusCode == 204);

@@ -48,7 +48,10 @@ public class CreateReferencesTests : TestBase
 					{ "name", "Beautiful" },
 					{ "description", "Putting the game of letter soups to a whole new level." }
 				}
-			}));
+			})
+		{
+			ConsistencyLevel = ConsistencyLevel.Quorum
+		});
 		Assert.True(batch.HttpStatusCode == 200);
 
 		var refTo1 = new BatchReference(

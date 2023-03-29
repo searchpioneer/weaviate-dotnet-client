@@ -17,12 +17,8 @@ namespace SearchPioneer.Weaviate.Client;
 
 public class CheckObjectRequest
 {
-    public CheckObjectRequest(string id)
-    {
-        if (id == null) throw new ArgumentNullException(nameof(id));
-
-        Id = id;
-    }
+    public CheckObjectRequest(string id) =>
+	    Id = id ?? throw new ArgumentNullException(nameof(id));
 
     public string? Class { get; set; }
     public string Id { get; }

@@ -30,13 +30,17 @@ public class UpdateTests : TestBase
 
 		var badPizza = Client.Data.Create(new(CLASS_NAME_PIZZA)
 		{
-			Id = pizzaId, Properties = new() { { "name", "Hawaii" }, { "description", "Missing description" } }
+			Id = pizzaId,
+			Properties = new() { { "name", "Hawaii" }, { "description", "Missing description" } },
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(badPizza.HttpStatusCode == 200);
 
 		var badSoup = Client.Data.Create(new(CLASS_NAME_SOUP)
 		{
-			Id = soupId, Properties = new() { { "name", "Water" }, { "description", "Missing description" } }
+			Id = soupId,
+			Properties = new() { { "name", "Water" }, { "description", "Missing description" } },
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(badSoup.HttpStatusCode == 200);
 
@@ -46,7 +50,8 @@ public class UpdateTests : TestBase
 			{
 				{ "name", "Hawaii" },
 				{ "description", "Universally accepted to be the best pizza ever created." }
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(updatePizza.HttpStatusCode == 200);
 
@@ -59,7 +64,8 @@ public class UpdateTests : TestBase
 					"description",
 					"Used by humans when their inferior genetics are attacked by microscopic organisms."
 				}
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(updateSoup.HttpStatusCode == 200);
 

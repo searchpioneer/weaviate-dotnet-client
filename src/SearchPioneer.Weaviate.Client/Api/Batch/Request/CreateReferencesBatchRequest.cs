@@ -20,4 +20,5 @@ public class CreateReferencesBatchRequest
     public CreateReferencesBatchRequest(params BatchReference[] references) => References = references;
 
     public BatchReference[] References { get; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

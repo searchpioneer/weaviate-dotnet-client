@@ -73,7 +73,10 @@ public class CreateTests : TestBase
 					{ "name", "Hawaii" },
 					{ "description", "Putting the game of letter soups to a whole new level." }
 				}
-			}));
+			})
+		{
+			ConsistencyLevel = ConsistencyLevel.Quorum
+		});
 		Assert.True(batch.HttpStatusCode == 200);
 
 		void AssertCount(ApiResponse<WeaviateObjectResponse[]> result)

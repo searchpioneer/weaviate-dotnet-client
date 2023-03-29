@@ -34,7 +34,7 @@ public class ReferenceApi
     public ApiResponse Replace(ReplaceReferenceRequest request)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildReplace(pathParams, out var warnings);
         var response = _transport.PutAsync(path, request.ReferencePayload).GetAwaiter().GetResult();
         response.Warnings.AddRange(warnings);
         return response;
@@ -43,7 +43,7 @@ public class ReferenceApi
     public async Task<ApiResponse> ReplaceAsync(ReplaceReferenceRequest request, CancellationToken cancellationToken = default)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildReplace(pathParams, out var warnings);
         var response = await _transport.PutAsync(path, request.ReferencePayload, cancellationToken).ConfigureAwait(false);
         response.Warnings.AddRange(warnings);
         return response;
@@ -52,7 +52,7 @@ public class ReferenceApi
     public ApiResponse Create(CreateReferenceRequest request)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildCreate(pathParams, out var warnings);
         var response = _transport.PostAsync(path, request.ReferencePayload).GetAwaiter().GetResult();
         response.Warnings.AddRange(warnings);
         return response;
@@ -61,7 +61,7 @@ public class ReferenceApi
     public async Task<ApiResponse> CreateAsync(CreateReferenceRequest request, CancellationToken cancellationToken = default)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildCreate(pathParams, out var warnings);
         var response = await _transport.PostAsync(path, request.ReferencePayload, cancellationToken).ConfigureAwait(false);
         response.Warnings.AddRange(warnings);
         return response;
@@ -70,7 +70,7 @@ public class ReferenceApi
     public ApiResponse Delete(DeleteReferenceRequest request)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildDelete(pathParams, out var warnings);
         var response = _transport.DeleteAsync(path, request.ReferencePayload).GetAwaiter().GetResult();
         response.Warnings.AddRange(warnings);
         return response;
@@ -79,7 +79,7 @@ public class ReferenceApi
     public async Task<ApiResponse> DeleteAsync(DeleteReferenceRequest request, CancellationToken cancellationToken = default)
     {
         var pathParams = GetReferencePathParams(request);
-        var path = _referencesPath.Build(pathParams, out var warnings);
+        var path = _referencesPath.BuildDelete(pathParams, out var warnings);
         var response = await _transport.DeleteAsync(path, request.ReferencePayload, cancellationToken).ConfigureAwait(false);
         response.Warnings.AddRange(warnings);
         return response;
@@ -91,19 +91,20 @@ public class ReferenceApi
 	    {
 		    Id = request.Id,
 		    Class = request.Class,
-		    Property = request.ReferenceProperty
+		    Property = request.ReferenceProperty,
+		    ConsistencyLevel = request.ConsistencyLevel
 	    };
 	    return pathParams;
     }
 
     private static ReferencePathParams GetReferencePathParams(ReplaceReferenceRequest request)
     {
-	    // TODO should reference payload be nullable?
 	    var pathParams = new ReferencePathParams
 	    {
 		    Id = request.Id,
 		    Class = request.Class,
-		    Property = request.ReferenceProperty
+		    Property = request.ReferenceProperty,
+			ConsistencyLevel = request.ConsistencyLevel
 	    };
 	    return pathParams;
     }
@@ -114,12 +115,14 @@ public class ReferenceApi
 	    {
 		    Id = request.Id,
 		    Class = request.Class,
-		    Property = request.ReferenceProperty
+		    Property = request.ReferenceProperty,
+		    ConsistencyLevel = request.ConsistencyLevel
 	    };
 	    return pathParams;
     }
 
-    public SingleRef Reference(string? @class = null, string? id = null) => Reference(out _, _beaconPath, @class, id);
+    public SingleRef Reference(string? @class = null, string? id = null) =>
+	    Reference(out _, _beaconPath, @class, id);
 
     public static SingleRef Reference(out List<string> warnings,
         BeaconPath? beaconPath = null,
