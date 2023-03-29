@@ -49,4 +49,6 @@ public class Config
     public string GetBaseUrl() => $"{_scheme}://{_host}/{_version}";
 
     public Dictionary<string, string> GetHeaders() => _headers;
+
+    public TimeSpan? Timeout { get; set; }
 }
