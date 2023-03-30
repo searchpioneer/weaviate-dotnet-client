@@ -99,6 +99,16 @@ public class GetTests : TestBase
 	}
 
 	[Fact]
+	public void GetWithLimitAndAfter()
+	{
+		var query = new Get
+		{
+			Class = CLASS_NAME_PIZZA, Limit = 2, After = "00000000-0000-0000-0000-000000000000", Fields = new[] { new Field { Name = "name" } }
+		};
+		Assert.Equal("{Get{Pizza(limit:2,after:\"00000000-0000-0000-0000-000000000000\"){name}}}", query.ToString());
+	}
+
+	[Fact]
 	public void GetWithNearText()
 	{
 		var query = new Get

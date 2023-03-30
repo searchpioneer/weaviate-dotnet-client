@@ -19,7 +19,9 @@ public class GetObjectRequest
 {
     public string? Class { get; set; }
     public string? Id { get; set; }
+    public int? Offset { get; set; }
     public int? Limit { get; set; }
+    public string? After { get; set; }
     public HashSet<string>? Additional { get; set; }
     public ConsistencyLevel? ConsistencyLevel { get; set; }
     public string? NodeName { get; set; }

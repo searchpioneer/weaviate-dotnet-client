@@ -257,7 +257,9 @@ public class DataApi
 			    ? request.Additional.ToArray()
 			    : Enumerable.Empty<string>().ToArray(),
 		    ConsistencyLevel = request.ConsistencyLevel,
-		    NodeName = request.NodeName
+		    NodeName = request.NodeName,
+		    After = request.After,
+		    Offset = request.Offset
 	    };
 	    return param;
     }

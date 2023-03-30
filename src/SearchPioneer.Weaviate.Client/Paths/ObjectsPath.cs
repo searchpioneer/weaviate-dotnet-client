@@ -63,7 +63,9 @@ public class ObjectsPath
 	    var result = Build(pathParams, out var warns,
 		    AddQueryClassNameWithDeprecatedCheck,
 		    AddQueryAdditionals,
-		    AddQueryLimit);
+		    AddQueryLimit,
+		    AddQueryOffset,
+		    AddQueryAfter);
 	    warnings = warns;
 	    return result;
     }
@@ -162,6 +164,18 @@ public class ObjectsPath
 	    if (pathParams.Additional is { Length: > 0 })
 		    query.Add($"include={string.Join(",", pathParams.Additional)}");
 	    return warnings;
+    }
+
+    private List<string>? AddQueryAfter(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.After != null) query.Add($"after={pathParams.After}");
+	    return null;
+    }
+
+    private List<string>? AddQueryOffset(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.Offset != null) query.Add($"offset={pathParams.Offset}");
+	    return null;
     }
 
     private List<string>? AddQueryLimit(List<string> path, List<string> query, ObjectPathParams pathParams)

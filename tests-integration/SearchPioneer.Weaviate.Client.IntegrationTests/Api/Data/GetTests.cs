@@ -50,6 +50,10 @@ public class GetTests : TestBase
 		Assert.True(tofu.HttpStatusCode == 200);
 
 		var allResults = Client.Data.Get(new());
+		var oneResult = Client.Data.Get(new() { Class = "Pizza", Limit = 1 });
+		var firstPizzaId = oneResult.Result![0].Id!;
+		var afterFirstPizzaObjects = Client.Data.Get(new() { Class = "Pizza", Limit = 1, After = firstPizzaId });
+
 		var allResultsConvenience = Client.Data.GetAll();
 
 		var singleResult = Client.Data.Get(new() { Limit = 1 });
@@ -57,6 +61,7 @@ public class GetTests : TestBase
 		Assert.Equal(4, allResults.Result.Length);
 		Assert.Equal(4, allResultsConvenience.Result.Length);
 		Assert.Single(singleResult.Result);
+		Assert.Single(afterFirstPizzaObjects.Result);
 	}
 
 	[Fact]
