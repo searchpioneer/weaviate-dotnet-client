@@ -573,7 +573,19 @@ public class SchemaTests : TestBase
 				DynamicEfMin = 100,
 				DynamicEfMax = 500,
 				FlatSearchCutoff = 40000,
-				Distance = Distance.DotProduct
+				Distance = Distance.DotProduct,
+				Pq = new()
+				{
+					Enabled = true,
+					BitCompression = true,
+					Segments = 4,
+					Centroids = 8,
+					Encoder = new()
+					{
+						Type = "tile",
+						Distribution = "normal"
+					}
+				}
 			},
 			ShardingConfig = new()
 			{
@@ -609,6 +621,13 @@ public class SchemaTests : TestBase
 			Assert.Equal(500, weaviateClass.VectorIndexConfig.DynamicEfMax);
 			Assert.Equal(40000, weaviateClass.VectorIndexConfig.FlatSearchCutoff);
 			Assert.Equal(Distance.DotProduct, weaviateClass.VectorIndexConfig.Distance);
+
+			Assert.True(weaviateClass.VectorIndexConfig.Pq!.Enabled);
+			Assert.True(weaviateClass.VectorIndexConfig.Pq!.BitCompression);
+			Assert.Equal(4, weaviateClass.VectorIndexConfig.Pq!.Segments);
+			Assert.Equal(8, weaviateClass.VectorIndexConfig.Pq!.Centroids);
+			Assert.Equal("tile", weaviateClass.VectorIndexConfig.Pq!.Encoder!.Type);
+			Assert.Equal("normal", weaviateClass.VectorIndexConfig.Pq!.Encoder!.Distribution);
 
 			Assert.Equal(1, weaviateClass.ShardingConfig!.ActualCount);
 			Assert.Equal(128, weaviateClass.ShardingConfig.ActualVirtualCount);
