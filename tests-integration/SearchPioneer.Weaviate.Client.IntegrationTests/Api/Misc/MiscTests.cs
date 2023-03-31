@@ -40,7 +40,7 @@ public class MiscTests : TestBase
 		Assert.Equal("http://[::]:8080", meta.Result.Hostname);
 		Assert.Equal(ExpectedVersion, meta.Result.Version);
 		Assert.Equal(
-			"{\"backup-filesystem\":{\"backupsPath\":\"/tmp/backups\"},\"text2vec-contextionary\":{\"version\":\"en0.16.0-v1.1.0\",\"wordCount\":818072}}",
+			"{\"backup-filesystem\":{\"backupsPath\":\"/tmp/backups\"},\"generative-openai\":{\"documentationHref\":\"https://beta.openai.com/docs/api-reference/completions\",\"name\":\"Generative Search - OpenAI\"},\"text2vec-contextionary\":{\"version\":\"en0.16.0-v1.2.0\",\"wordCount\":818072}}",
 			meta.Result.Modules.ToJsonString());
 	}
 }

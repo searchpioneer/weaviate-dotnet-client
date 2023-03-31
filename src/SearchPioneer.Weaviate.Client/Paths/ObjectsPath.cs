@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text;
-
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
@@ -25,69 +23,97 @@ public class ObjectsPath
 
     public string BuildCreate(ObjectPathParams pathParams, out List<string> warnings)
     {
-        var result = Build(pathParams, out var warns);
+        var result = Build(pathParams, out var warns,
+	        AddQueryConsistencyLevel);
         warnings = warns;
         return result;
     }
 
     public string BuildDelete(ObjectPathParams pathParams, out List<string> warnings)
     {
-        var result = Build(pathParams, out var warns, AddClassNameDeprecatedNotSupportedCheck, AddId);
-        warnings = warns;
-        return result;
-    }
-
-    public string BuildCheck(ObjectPathParams pathParams, out List<string> warnings)
-    {
-        var result = Build(pathParams, out var warns, AddClassNameDeprecatedNotSupportedCheck, AddId);
-        warnings = warns;
-        return result;
-    }
-
-    public string BuildGetOne(ObjectPathParams pathParams, out List<string> warnings)
-    {
-        var result = Build(pathParams, out var warns, AddClassNameDeprecatedNotSupportedCheck, AddId,
-            AddQueryParamsForGetOne);
-        warnings = warns;
-        return result;
-    }
-
-    public string BuildGet(ObjectPathParams pathParams, out List<string> warnings)
-    {
-        var result = Build(pathParams, out var warns, AddQueryParams);
+	    var result = Build(pathParams, out var warns,
+		    AddPathClassNameWithDeprecatedNotSupportedCheck,
+		    AddPathId,
+		    AddQueryConsistencyLevel);
         warnings = warns;
         return result;
     }
 
     public string BuildUpdate(ObjectPathParams pathParams, out List<string> warnings)
     {
-        var result = Build(pathParams, out var warns, AddClassNameDeprecatedCheck, AddId);
+	    var result = Build(pathParams, out var warns,
+		    AddPathClassNameWithDeprecatedCheck,
+		    AddPathId,
+		    AddQueryConsistencyLevel);
+	    warnings = warns;
+	    return result;
+    }
+
+    public string BuildCheck(ObjectPathParams pathParams, out List<string> warnings)
+    {
+	    var result = Build(pathParams, out var warns,
+		    AddPathClassNameWithDeprecatedNotSupportedCheck,
+		    AddPathId);
+        warnings = warns;
+        return result;
+    }
+
+    public string BuildGet(ObjectPathParams pathParams, out List<string> warnings)
+    {
+	    var result = Build(pathParams, out var warns,
+		    AddQueryClassNameWithDeprecatedCheck,
+		    AddQueryAdditionals,
+		    AddQueryLimit,
+		    AddQueryOffset,
+		    AddQueryAfter);
+	    warnings = warns;
+	    return result;
+    }
+
+    public string BuildGetOne(ObjectPathParams pathParams, out List<string> warnings)
+    {
+        var result = Build(pathParams, out var warns,
+	        AddPathClassNameWithDeprecatedNotSupportedCheck,
+	        AddPathId,
+	        AddQueryAdditionals,
+	        AddQueryConsistencyLevel,
+	        AddQueryNodeName);
         warnings = warns;
         return result;
     }
 
     private static string Build(ObjectPathParams pathParams, out List<string> warnings,
-        params Func<StringBuilder, ObjectPathParams, List<string>?>[] modifiers)
+        params Func<List<string>, List<string>, ObjectPathParams, List<string>?>[] modifiers)
     {
+	    if (pathParams == null)
+		    throw new ArgumentNullException(nameof(pathParams));
+
         var warns = new List<string>();
-        var path = new StringBuilder("/objects");
+        var path = new List<string>();
+        var query = new List<string>();
         foreach (var modifier in modifiers)
         {
-            var result = modifier(path, pathParams);
+            var result = modifier(path, query, pathParams);
             if (result != null) warns.AddRange(result);
         }
 
         warnings = warns;
-        return path.ToString();
+        var url = path.Count > 0 ? string.Join("/", path) : string.Empty;
+		var queryString = query.Count > 0 ? $"?{string.Join("&", query)}" : string.Empty;
+		if (string.IsNullOrEmpty(url) && string.IsNullOrEmpty(queryString))
+			return "/objects";
+		if (string.IsNullOrEmpty(url))
+			return $"/objects{queryString}";
+		return $"/objects/{url}{queryString}";
     }
 
-    private List<string>? AddClassNameDeprecatedNotSupportedCheck(StringBuilder path, ObjectPathParams pathParams)
+    private List<string>? AddPathClassNameWithDeprecatedNotSupportedCheck(List<string> path, List<string> query, ObjectPathParams pathParams)
     {
         var warnings = new List<string>();
         if (_support.SupportsClassNameNamespacedEndpoints())
         {
             if (!string.IsNullOrWhiteSpace(pathParams.Class))
-                path.Append('/').Append(pathParams.Class.Trim());
+                path.Add(pathParams.Class.Trim());
             else
                 warnings.Add(_support.GetWarnDeprecatedNonClassNameNamespacedEndpointsForObjects());
         }
@@ -99,58 +125,77 @@ public class ObjectsPath
         return warnings;
     }
 
-    private List<string>? AddClassNameDeprecatedCheck(StringBuilder path, ObjectPathParams pathParams)
+    private List<string>? AddPathClassNameWithDeprecatedCheck(List<string> path, List<string> query, ObjectPathParams pathParams)
     {
         var warnings = new List<string>();
         if (_support.SupportsClassNameNamespacedEndpoints())
         {
             if (!string.IsNullOrWhiteSpace(pathParams.Class))
-                path.Append('/').Append(pathParams.Class.Trim());
+                path.Add(pathParams.Class.Trim());
             else
                 warnings.Add(_support.GetWarnDeprecatedNonClassNameNamespacedEndpointsForObjects());
         }
-
         return warnings;
     }
 
-    private static List<string>? AddId(StringBuilder path, ObjectPathParams pathParams)
+    private static List<string>? AddPathId(List<string> path, List<string> query, ObjectPathParams pathParams)
     {
-        if (!string.IsNullOrWhiteSpace(pathParams.Id)) path.Append('/').Append(pathParams.Id.Trim());
+	    if (!string.IsNullOrWhiteSpace(pathParams.Id))
+		    path.Add(pathParams.Id.Trim());
+	    return null;
+    }
+
+    private List<string>? AddQueryClassNameWithDeprecatedCheck(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    var warnings = new List<string>();
+	    if (string.IsNullOrWhiteSpace(pathParams.Id) && !string.IsNullOrWhiteSpace(pathParams.Class))
+	    {
+		    if (_support.SupportsClassNameNamespacedEndpoints())
+			    query.Add($"class={pathParams.Class}");
+		    else
+			    warnings.Add(_support.GetWarnNotSupportedClassParameterInEndpointsForObjects());
+	    }
+	    return warnings;
+    }
+
+    private List<string>? AddQueryAdditionals(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    var warnings = new List<string>();
+	    if (pathParams.Additional is { Length: > 0 })
+		    query.Add($"include={string.Join(",", pathParams.Additional)}");
+	    return warnings;
+    }
+
+    private List<string>? AddQueryAfter(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.After != null) query.Add($"after={pathParams.After}");
+	    return null;
+    }
+
+    private List<string>? AddQueryOffset(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.Offset != null) query.Add($"offset={pathParams.Offset}");
+	    return null;
+    }
+
+    private List<string>? AddQueryLimit(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.Limit != null) query.Add($"limit={pathParams.Limit.Value}");
+	    return null;
+    }
+
+    private static List<string>? AddQueryConsistencyLevel(List<string> path, List<string> query, ObjectPathParams pathParams)
+    {
+	    if (pathParams.ConsistencyLevel != null)
+		    query.Add($"consistency_level={ConsistencyLevelJsonConverter.ToString(pathParams.ConsistencyLevel.Value)}");
         return null;
     }
 
-    private List<string>? AddQueryParams(StringBuilder path, ObjectPathParams pathParams)
+    private static List<string>? AddQueryNodeName(List<string> path, List<string> query, ObjectPathParams pathParams)
     {
-        var warnings = new List<string>();
-        var queryParams = new List<string>();
-        if (pathParams.Additional is { Length: > 0 })
-            queryParams.Add($"include={string.Join(",", pathParams.Additional)}");
+	    if (!string.IsNullOrEmpty(pathParams.NodeName))
+		    query.Add($"node_name={pathParams.NodeName}");
 
-        if (pathParams.Limit != null) queryParams.Add($"limit={pathParams.Limit.Value}");
-
-        if (string.IsNullOrWhiteSpace(pathParams.Id) && !string.IsNullOrWhiteSpace(pathParams.Class))
-        {
-            if (_support.SupportsClassNameNamespacedEndpoints())
-                queryParams.Add($"class={pathParams.Class}");
-            else
-                warnings.Add(_support.GetWarnNotSupportedClassParameterInEndpointsForObjects());
-        }
-
-        if (queryParams.Count > 0) path.Append('?').Append(string.Join("&", queryParams.ToArray()));
-        return warnings;
-    }
-
-    private static List<string>? AddQueryParamsForGetOne(StringBuilder path, ObjectPathParams pathParams)
-    {
-        var queryParams = new List<string>();
-        if (pathParams.Additional is { Length: > 0 })
-            queryParams.Add($"include={string.Join(",", pathParams.Additional)}");
-        if (pathParams.ConsistencyLevel != null)
-            queryParams.Add(
-                $"consistency_level={ConsistencyLevelJsonConverter.ToString(pathParams.ConsistencyLevel.Value)}");
-        if (!string.IsNullOrEmpty(pathParams.NodeName)) queryParams.Add($"node_name={pathParams.NodeName}");
-
-        if (queryParams.Count > 0) path.Append('?').Append(string.Join("&", queryParams.ToArray()));
         return null;
     }
 }

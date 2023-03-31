@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 using Moq;
 using Xunit;
 
@@ -30,7 +29,12 @@ public class ObjectsPathTests
 
 	private static readonly ObjectPathParams AllParams = new()
 	{
-		Class = "someClass", Id = "someId", Limit = 100, Additional = new[] { "additional1", "additional2" }
+		Class = "someClass",
+		Id = "someId",
+		Limit = 100,
+		Additional = new[] { "additional1", "additional2" },
+		After = "00000000-0000-0000-0000-000000000000",
+		Offset = 0
 	};
 
 	private static readonly ObjectPathParams ConsistencyLevelClassId = new()
@@ -58,7 +62,10 @@ public class ObjectsPathTests
 		Id = "someId",
 		Limit = 100,
 		Additional = new[] { "additional1", "additional2" },
-		NodeName = "node1"
+		NodeName = "node1",
+		ConsistencyLevel = ConsistencyLevel.Quorum,
+		After = "00000000-0000-0000-0000-000000000000",
+		Offset = 0
 	};
 
 	[Fact]
@@ -139,7 +146,7 @@ public class ObjectsPathTests
 			new ObjectsPath(support.Object).BuildGetOne(NodeNameClassId, out _));
 		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&consistency_level=QUORUM",
 			new ObjectsPath(support.Object).BuildGetOne(ConsistencyLevelAllParams, out _));
-		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&node_name=node1",
+		Assert.Equal("/objects/someClass/someId?include=additional1,additional2&consistency_level=QUORUM&node_name=node1",
 			new ObjectsPath(support.Object).BuildGetOne(NodeNameAllParams, out _));
 	}
 
@@ -163,9 +170,9 @@ public class ObjectsPathTests
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(Empty, out _));
 		Assert.Equal("/objects?class=someClass", new ObjectsPath(support.Object).BuildGet(ClassParams, out _));
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(IdParams, out _));
-		Assert.Equal("/objects?include=additional1,additional2&limit=100",
+		Assert.Equal("/objects?include=additional1,additional2&limit=100&offset=0&after=00000000-0000-0000-0000-000000000000",
 			new ObjectsPath(support.Object).BuildGet(AllParams, out _));
-		Assert.Equal("/objects?limit=100&class=someClass",
+		Assert.Equal("/objects?class=someClass&limit=100",
 			new ObjectsPath(support.Object).BuildGet(ClassQueryParams, out _));
 	}
 
@@ -177,7 +184,7 @@ public class ObjectsPathTests
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(Empty, out _));
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(ClassParams, out _));
 		Assert.Equal("/objects", new ObjectsPath(support.Object).BuildGet(IdParams, out _));
-		Assert.Equal("/objects?include=additional1,additional2&limit=100",
+		Assert.Equal("/objects?include=additional1,additional2&limit=100&offset=0&after=00000000-0000-0000-0000-000000000000",
 			new ObjectsPath(support.Object).BuildGet(AllParams, out _));
 		Assert.Equal("/objects?limit=100", new ObjectsPath(support.Object).BuildGet(ClassQueryParams, out _));
 	}

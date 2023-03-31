@@ -22,6 +22,17 @@ public class Config
     private readonly string _scheme;
     private readonly string _version;
 
+    public Config(string scheme, string host, string apiKey)
+    {
+        _scheme = scheme;
+        _host = host;
+        _version = "v1";
+        _headers = new()
+        {
+	        { "authorization", $"Bearer {apiKey}" }
+        };
+    }
+
     public Config(string scheme, string host, Dictionary<string, string> headers)
     {
         _scheme = scheme;
@@ -31,11 +42,16 @@ public class Config
     }
 
     public Config(string scheme, string host) :
-        this(scheme, host, new())
+        this(scheme, host, new Dictionary<string, string>())
     {
     }
 
     public string GetBaseUrl() => $"{_scheme}://{_host}/{_version}";
 
     public Dictionary<string, string> GetHeaders() => _headers;
+
+    /// <summary>
+    /// HTTP timeout, defaults to 60 seconds.
+    /// </summary>
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(60);
 }

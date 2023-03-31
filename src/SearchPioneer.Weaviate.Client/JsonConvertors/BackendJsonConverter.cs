@@ -24,6 +24,7 @@ internal class BackendJsonConverter : JsonConverter<Backend>
     private const string Filesystem = "filesystem";
     private const string S3 = "s3";
     private const string Gcs = "gcs";
+    private const string Azure = "azure";
 
     private static Backend FromString(string status) =>
 	    status switch
@@ -31,6 +32,7 @@ internal class BackendJsonConverter : JsonConverter<Backend>
 		    Filesystem => Backend.Filesystem,
 		    S3 => Backend.AmazonSimpleStorageService,
 		    Gcs => Backend.GoogleCloudStorage,
+		    Azure => Backend.AzureStorage,
 		    _ => throw new ArgumentOutOfRangeException(nameof(status))
 	    };
 
@@ -40,6 +42,7 @@ internal class BackendJsonConverter : JsonConverter<Backend>
 		    Backend.Filesystem => Filesystem,
 		    Backend.AmazonSimpleStorageService => S3,
 		    Backend.GoogleCloudStorage => Gcs,
+		    Backend.AzureStorage => Azure,
 		    _ => throw new ArgumentOutOfRangeException(nameof(status))
 	    };
 

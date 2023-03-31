@@ -17,13 +17,10 @@ namespace SearchPioneer.Weaviate.Client;
 
 public class DeleteObjectRequest
 {
-    public DeleteObjectRequest(string id)
-    {
-        if (id == null) throw new ArgumentNullException(nameof(id));
-
-        Id = id;
-    }
+    public DeleteObjectRequest(string id) =>
+	    Id = id ?? throw new ArgumentNullException(nameof(id));
 
     public string? Class { get; set; }
     public string Id { get; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

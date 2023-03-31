@@ -29,9 +29,12 @@ public class Serializer
             new ShardStatusJsonConverter(),
             new StatusJsonConverter(),
             new ConsistencyLevelJsonConverter(),
+            new DistanceJsonConverter(),
             new TokenizationJsonConverter(),
             new BackendJsonConverter(),
             new BackupStatusJsonConverter(),
+            new EncoderTypeJsonConverter(),
+            new DistributionTypeJsonConverter(),
             new BatchDeleteOutputJsonConverter(),
             new BatchDeleteResultStatusJsonConverter(),
             new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, false)

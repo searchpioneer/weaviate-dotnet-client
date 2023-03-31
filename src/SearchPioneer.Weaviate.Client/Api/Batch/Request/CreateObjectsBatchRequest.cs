@@ -20,4 +20,5 @@ public class CreateObjectsBatchRequest
     public CreateObjectsBatchRequest(params WeaviateObject[] objects) => Objects = objects;
 
     public WeaviateObject[] Objects { get; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

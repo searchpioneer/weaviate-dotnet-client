@@ -21,6 +21,7 @@ public class Get
     public Field[]? Fields { get; set; }
     public int? Offset { get; set; }
     public int? Limit { get; set; }
+    public string? After { get; set; }
     public Where? Where { get; set; }
     public NearText? NearText { get; set; }
     public BM25? BM25 { get; set; }
@@ -57,6 +58,7 @@ public class Get
         if (Ask != null) filters.Add(Ask.ToString());
         if (NearImage != null) filters.Add(NearImage.ToString());
         if (Limit != null) filters.Add($"limit:{Limit}");
+        if (After != null) filters.Add($"after:\"{After}\"");
         if (Offset != null) filters.Add($"offset:{Offset}");
         if (Sorts != null)
         {

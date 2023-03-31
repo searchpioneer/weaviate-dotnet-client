@@ -19,15 +19,13 @@ public class UpdateObjectRequest
 {
     public UpdateObjectRequest(string id, string @class)
     {
-        if (id == null) throw new ArgumentNullException(nameof(id));
-        if (@class == null) throw new ArgumentNullException(nameof(@class));
-
-        Id = id;
-        Class = @class;
+	    Id = id ?? throw new ArgumentNullException(nameof(id));
+        Class = @class ?? throw new ArgumentNullException(nameof(@class));
     }
 
     public string? Class { get; }
     public string? Id { get; }
     public Dictionary<string, object>? Properties { get; set; }
     public bool? WithMerge { get; set; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

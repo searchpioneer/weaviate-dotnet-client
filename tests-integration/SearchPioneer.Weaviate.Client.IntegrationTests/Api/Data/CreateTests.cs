@@ -35,7 +35,8 @@ public class CreateTests : TestBase
 			{
 				{ "name", "Hawaii" },
 				{ "description", "Universally accepted to be the best pizza ever created." }
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(newPizza.HttpStatusCode == 200);
 
@@ -49,10 +50,10 @@ public class CreateTests : TestBase
 					"description",
 					"Used by humans when their inferior genetics are attacked by microscopic organisms."
 				}
-			}
+			},
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(newSoup.HttpStatusCode == 200);
-
 
 		var pizza = Client.Data.Get(new() { Class = CLASS_NAME_PIZZA, Id = id1 });
 		Assert.True(pizza.HttpStatusCode == 200);

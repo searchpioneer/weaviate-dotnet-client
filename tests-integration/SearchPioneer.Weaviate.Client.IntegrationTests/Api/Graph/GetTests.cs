@@ -360,35 +360,105 @@ public class GetTests : TestBase
 				},
 				Fields = "name".AsFields()
 			}));
+	}
 
-		// SortArgument byNameDesc = client.graphQL().arguments().sortArgBuilder()
-		//     .path(new String[]{ "name" })
-		//     .order(SortOrder.desc)
-		//     .build();
-		// String[] expectedByNameDesc = new String[]{"Quattro Formaggi", "Hawaii", "Frutti di Mare", "Doener"};
-		// SortArgument byPriceAsc = client.graphQL().arguments().sortArgBuilder()
-		//     .path(new String[]{ "price" })
-		//     .order(SortOrder.asc)
-		//     .build();
-		// String[] expectedByPriceAsc = new String[]{ "Hawaii", "Doener", "Quattro Formaggi", "Frutti di Mare" };
-		// // when
-		// testGenerics.createTestSchemaAndData(client);
-		// Result<GraphQLResponse> resultByNameDesc = client.graphQL().get()
-		//     .withClassName(CLASS_NAME_PIZZA)
-		//     .withSort(byNameDesc)
-		//     .withFields(name).run();
-		// Result<GraphQLResponse> resultByDescriptionAsc = client.graphQL().get()
-		//     .withClassName(CLASS_NAME_PIZZA)
-		//     .withSort(byPriceAsc)
-		//     .withFields(name).run();
-		// Result<GraphQLResponse> resultByNameDescByPriceAsc = client.graphQL().get()
-		//     .withClassName(CLASS_NAME_PIZZA)
-		//     .withSort(byNameDesc, byPriceAsc)
-		//     .withFields(name).run();
-		// testGenerics.cleanupWeaviate(client);
-		// // then
-		// expectPizzaNamesOrder(resultByNameDesc, expectedByNameDesc);
-		// expectPizzaNamesOrder(resultByDescriptionAsc, expectedByPriceAsc);
-		// expectPizzaNamesOrder(resultByNameDescByPriceAsc, expectedByNameDesc);
+	[Fact]
+	public void GetWithTimestampFilters()
+	{
+		CreateTestSchemaAndData(Client);
+
+		var fields = new[]
+		{
+			new[]
+			{
+				AdditionalField.Id,
+				AdditionalField.CreationTime,
+				AdditionalField.LastUpdateTime,
+			}.AsAdditionalFields()
+		};
+
+		var result = Client.Graph.Get(new()
+		{
+			Class = CLASS_NAME_PIZZA,
+			Fields = fields
+		});
+		Assert.True(result.HttpStatusCode == 200);
+
+		var jsonArray = result.Result!.Data["Get"]![CLASS_NAME_PIZZA]!.AsArray();
+		Assert.Equal(4, jsonArray.Count);
+
+		foreach (var json in jsonArray)
+		{
+			var creationTimeUnix = jsonArray[0]!["_additional"]!["creationTimeUnix"]!;
+			var lastUpdateTimeUnix = jsonArray[0]!["_additional"]!["lastUpdateTimeUnix"]!;
+
+			var createdResult = Client.Graph.Get(new()
+			{
+				Class = CLASS_NAME_PIZZA,
+				Where = new()
+				{
+					Path = new[] { "_creationTimeUnix" },
+					Operator = Operator.Equal,
+					ValueString = creationTimeUnix.ToString()
+				},
+				Fields = fields
+			});
+			Assert.True(createdResult.HttpStatusCode == 200);
+
+			foreach (var item in createdResult.Result!.Data["Get"]![CLASS_NAME_PIZZA]!.AsArray())
+			{
+				Assert.Equal(creationTimeUnix.ToString(), item["_additional"]!["creationTimeUnix"]!.ToString());
+			}
+
+			var updatedResult = Client.Graph.Get(new()
+			{
+				Class = CLASS_NAME_PIZZA,
+				Where = new()
+				{
+					Path = new[] { "_lastUpdateTimeUnix" },
+					Operator = Operator.Equal,
+					ValueString = lastUpdateTimeUnix.ToString()
+				},
+				Fields = fields
+			});
+			Assert.True(updatedResult.HttpStatusCode == 200);
+
+			foreach (var item in updatedResult.Result!.Data["Get"]![CLASS_NAME_PIZZA]!.AsArray())
+			{
+				Assert.Equal(lastUpdateTimeUnix.ToString(), item["_additional"]!["lastUpdateTimeUnix"]!.ToString());
+			}
+		}
+	}
+
+	[Fact]
+	public void GetUsingCursorAPI()
+	{
+		CreateTestSchemaAndData(Client);
+
+		var result = Client.Graph.Get(new()
+		{
+			Class = CLASS_NAME_PIZZA,
+			After = "00000000-0000-0000-0000-000000000000",
+			Limit = 10,
+			Fields = "name".AsFields()
+		});
+
+		Assert.Equal(3, result.Result.Data["Get"]![CLASS_NAME_PIZZA]!.AsArray().Count);
+	}
+
+	[Fact]
+	public void GetUsingLimitAndOffset()
+	{
+		CreateTestSchemaAndData(Client);
+
+		var result = Client.Graph.Get(new()
+		{
+			Class = CLASS_NAME_PIZZA,
+			Offset = 3,
+			Limit = 4,
+			Fields = "name".AsFields()
+		});
+
+		Assert.Single(result.Result.Data["Get"]![CLASS_NAME_PIZZA]!.AsArray());
 	}
 }

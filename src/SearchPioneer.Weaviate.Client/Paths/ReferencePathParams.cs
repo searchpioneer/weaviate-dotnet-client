@@ -20,4 +20,5 @@ public class ReferencePathParams
     public string? Id { get; set; }
     public string? Class { get; set; }
     public string? Property { get; set; }
+    public ConsistencyLevel? ConsistencyLevel { get; set; }
 }

@@ -15,16 +15,19 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
-public class WeaviateClass
+/// <summary>
+/// Encoder configuration
+/// </summary>
+public class Encoder
 {
-    public string Class { get; set; }
-    public string Description { get; set; }
-    public InvertedIndexConfig? InvertedIndexConfig { get; set; }
-    public object ModuleConfig { get; set; }
-    public Property[]? Properties { get; set; }
-    public VectorIndexConfig? VectorIndexConfig { get; set; }
-    public ShardingConfig? ShardingConfig { get; set; }
-    public string VectorIndexType { get; set; }
-    public string Vectorizer { get; set; }
-    public ReplicationConfig? ReplicationConfig { get; set; }
+	/// <summary>
+	/// Type of encoder. If using the <see cref="EncoderType.Tile"/> encoder you can also specify the <see cref="Distribution"/>.
+	/// </summary>
+	public EncoderType? Type { get; set; }
+
+	/// <summary>
+	///  The distribution, can be set to  If using the <see cref="EncoderType.Tile"/> encoder you can specify as
+	/// <see cref="DistributionType.LogNormal"/> (default) or <see cref="DistributionType.Normal"/>.
+	/// </summary>
+	public DistributionType? Distribution { get; set; }
 }

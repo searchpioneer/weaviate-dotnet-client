@@ -29,7 +29,7 @@ public class ReferencesPathTests
 
 	private static readonly ReferencePathParams AllParams = new()
 	{
-		Class = "someClass", Id = "someId", Property = "someProperty"
+		Class = "someClass", Id = "someId", Property = "someProperty", ConsistencyLevel = ConsistencyLevel.Quorum
 	};
 
 	[Fact]
@@ -37,13 +37,13 @@ public class ReferencesPathTests
 	{
 		var support = new Mock<DbVersionSupport>();
 		support.Setup(v => v.SupportsClassNameNamespacedEndpoints()).Returns(true);
-		Assert.Equal("/objects/references", new ReferencesPath(support.Object).Build(Empty, out _));
-		Assert.Equal("/objects/someClass/references", new ReferencesPath(support.Object).Build(ClassParams, out _));
-		Assert.Equal("/objects/someId/references", new ReferencesPath(support.Object).Build(IdParams, out _));
+		Assert.Equal("/objects/references", new ReferencesPath(support.Object).BuildCreate(Empty, out _));
+		Assert.Equal("/objects/someClass/references", new ReferencesPath(support.Object).BuildCreate(ClassParams, out _));
+		Assert.Equal("/objects/someId/references", new ReferencesPath(support.Object).BuildCreate(IdParams, out _));
 		Assert.Equal("/objects/references/someProperty",
-			new ReferencesPath(support.Object).Build(PropertyParams, out _));
-		Assert.Equal("/objects/someClass/someId/references/someProperty",
-			new ReferencesPath(support.Object).Build(AllParams, out _));
+			new ReferencesPath(support.Object).BuildCreate(PropertyParams, out _));
+		Assert.Equal("/objects/someClass/someId/references/someProperty?consistency_level=QUORUM",
+			new ReferencesPath(support.Object).BuildCreate(AllParams, out _));
 	}
 
 	[Fact]
@@ -51,12 +51,12 @@ public class ReferencesPathTests
 	{
 		var support = new Mock<DbVersionSupport>();
 		support.Setup(v => v.SupportsClassNameNamespacedEndpoints()).Returns(false);
-		Assert.Equal("/objects/references", new ReferencesPath(support.Object).Build(Empty, out _));
-		Assert.Equal("/objects/references", new ReferencesPath(support.Object).Build(ClassParams, out _));
-		Assert.Equal("/objects/someId/references", new ReferencesPath(support.Object).Build(IdParams, out _));
+		Assert.Equal("/objects/references", new ReferencesPath(support.Object).BuildCreate(Empty, out _));
+		Assert.Equal("/objects/references", new ReferencesPath(support.Object).BuildCreate(ClassParams, out _));
+		Assert.Equal("/objects/someId/references", new ReferencesPath(support.Object).BuildCreate(IdParams, out _));
 		Assert.Equal("/objects/references/someProperty",
-			new ReferencesPath(support.Object).Build(PropertyParams, out _));
-		Assert.Equal("/objects/someId/references/someProperty",
-			new ReferencesPath(support.Object).Build(AllParams, out _));
+			new ReferencesPath(support.Object).BuildCreate(PropertyParams, out _));
+		Assert.Equal("/objects/someId/references/someProperty?consistency_level=QUORUM",
+			new ReferencesPath(support.Object).BuildCreate(AllParams, out _));
 	}
 }

@@ -46,7 +46,8 @@ public class CreateReferencesTests : TestBase
 			Id = pizzaId,
 			Class = CLASS_NAME_PIZZA,
 			ReferenceProperty = "otherFoods",
-			ReferencePayload = new[] { Client.Reference.Reference(CLASS_NAME_PIZZA, pizzaId) }
+			ReferencePayload = new[] { Client.Reference.Reference(CLASS_NAME_PIZZA, pizzaId) },
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(soupReference.HttpStatusCode == 200);
 
@@ -55,7 +56,8 @@ public class CreateReferencesTests : TestBase
 			Id = soupId,
 			Class = CLASS_NAME_SOUP,
 			ReferenceProperty = "otherFoods",
-			ReferencePayload = new[] { Client.Reference.Reference(CLASS_NAME_SOUP, soupId) }
+			ReferencePayload = new[] { Client.Reference.Reference(CLASS_NAME_SOUP, soupId) },
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(pizzaReference.HttpStatusCode == 200);
 
@@ -83,7 +85,8 @@ public class CreateReferencesTests : TestBase
 			Id = pizzaId,
 			Class = CLASS_NAME_PIZZA,
 			ReferenceProperty = "otherFoods",
-			ReferencePayload = Client.Reference.Reference(CLASS_NAME_SOUP, soupId)
+			ReferencePayload = Client.Reference.Reference(CLASS_NAME_SOUP, soupId),
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(soupReference.HttpStatusCode == 204);
 
@@ -92,7 +95,8 @@ public class CreateReferencesTests : TestBase
 			Id = soupId,
 			Class = CLASS_NAME_SOUP,
 			ReferenceProperty = "otherFoods",
-			ReferencePayload = Client.Reference.Reference(CLASS_NAME_PIZZA, pizzaId)
+			ReferencePayload = Client.Reference.Reference(CLASS_NAME_PIZZA, pizzaId),
+			ConsistencyLevel = ConsistencyLevel.Quorum
 		});
 		Assert.True(pizzaReference.HttpStatusCode == 204);
 

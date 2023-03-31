@@ -19,21 +19,19 @@ namespace SearchPioneer.Weaviate.Client.IntegrationTests;
 
 public abstract class TestBase
 {
-	protected const string ExpectedVersion = "1.17.0";
-	protected const string ExpectedGithubHash = "37d3b17";
-
-	private static readonly HttpClient HttpClient = new();
+	protected const string ExpectedVersion = "1.18.0";
+	protected const string ExpectedGithubHash = "8606543";
 
 	protected static readonly string CLASS_NAME_PIZZA = "Pizza";
 	protected static readonly string CLASS_NAME_SOUP = "Soup";
 
 	protected static readonly string PIZZA_QUATTRO_FORMAGGI_ID = "10523cdd-15a2-42f4-81fa-267fe92f7cd6";
 	protected static readonly string PIZZA_FRUTTI_DI_MARE_ID = "927dd3ac-e012-4093-8007-7799cc7e81e4";
-	protected static readonly string PIZZA_HAWAII_ID = "f824a18e-c430-4475-9bef-847673fbb54e";
+	protected static readonly string PIZZA_HAWAII_ID = "00000000-0000-0000-0000-000000000000";
 	protected static readonly string PIZZA_DOENER_ID = "d2b393ff-4b26-48c7-b554-218d970a9e17";
 	protected static readonly string SOUP_CHICKENSOUP_ID = "8c156d37-81aa-4ce9-a811-621e2702b825";
 	protected static readonly string SOUP_BEAUTIFUL_ID = "27351361-2898-4d1a-aad7-1ca48253eb0b";
-	protected readonly WeaviateClient Client = new(new("http", "localhost:8080"), new FlurlClient());
+	protected readonly WeaviateClient Client = new(new("http", "localhost:8080", "my-secret-key"), new FlurlClient());
 
 	protected static void CreateWeaviateTestSchemaFood(WeaviateClient client)
 	{

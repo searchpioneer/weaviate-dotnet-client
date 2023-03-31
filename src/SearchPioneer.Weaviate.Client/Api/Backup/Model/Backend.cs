@@ -32,7 +32,12 @@ public enum Backend
 	AmazonSimpleStorageService,
 
 	/// <summary>
-	///     Use GCS storage
+	///     Use GCS storage.
 	/// </summary>
-	GoogleCloudStorage
+	GoogleCloudStorage,
+
+	/// <summary>
+	///     Use Azure storage.
+	/// </summary>
+	AzureStorage
 }

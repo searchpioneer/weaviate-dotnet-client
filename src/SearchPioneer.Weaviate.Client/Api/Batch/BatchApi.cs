@@ -32,14 +32,16 @@ public class BatchApi
     public ApiResponse<ObjectResponse[]> CreateObjects(CreateObjectsBatchRequest request)
     {
         var batchRequest = new ObjectsBatch(new[] { "ALL" }, request.Objects.ToArray());
-        var response = _transport.PostAsync<ObjectsBatch, ObjectResponse[]>("/batch/objects", batchRequest).GetAwaiter().GetResult();
+        var endpoint = request.ConsistencyLevel.HasValue ? "/batch/objects?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/objects";
+        var response = _transport.PostAsync<ObjectsBatch, ObjectResponse[]>(endpoint, batchRequest).GetAwaiter().GetResult();
         return response;
     }
 
     public async Task<ApiResponse<ObjectResponse[]>> CreateObjectsAsync(CreateObjectsBatchRequest request, CancellationToken cancellationToken = default)
     {
         var batchRequest = new ObjectsBatch(new[] { "ALL" }, request.Objects.ToArray());
-        var response = await _transport.PostAsync<ObjectsBatch, ObjectResponse[]>("/batch/objects", batchRequest, cancellationToken).ConfigureAwait(false);
+        var endpoint = request.ConsistencyLevel.HasValue ? "/batch/objects?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/objects";
+        var response = await _transport.PostAsync<ObjectsBatch, ObjectResponse[]>(endpoint, batchRequest, cancellationToken).ConfigureAwait(false);
         return response;
     }
 
@@ -49,7 +51,8 @@ public class BatchApi
             ? new BatchDeleteMatch(request.Class, request.Where)
             : null;
         var batchDelete = new BatchDelete(request.DryRun, request.Output, match);
-        var response = _transport.DeleteAsync<BatchDelete, DeleteBatchResponse>("/batch/objects", batchDelete).GetAwaiter().GetResult();
+        var endpoint = request.ConsistencyLevel.HasValue ? "/batch/objects?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/objects";
+        var response = _transport.DeleteAsync<BatchDelete, DeleteBatchResponse>(endpoint, batchDelete).GetAwaiter().GetResult();
         return response;
     }
 
@@ -59,21 +62,22 @@ public class BatchApi
             ? new BatchDeleteMatch(request.Class, request.Where)
             : null;
         var batchDelete = new BatchDelete(request.DryRun, request.Output, match);
-        var response = await _transport.DeleteAsync<BatchDelete, DeleteBatchResponse>("/batch/objects", batchDelete, cancellationToken).ConfigureAwait(false);
+        var endpoint = request.ConsistencyLevel.HasValue ? "/batch/objects?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/objects";
+        var response = await _transport.DeleteAsync<BatchDelete, DeleteBatchResponse>(endpoint, batchDelete, cancellationToken).ConfigureAwait(false);
         return response;
     }
 
     public ApiResponse<CreateReferencesBatchResponse[]> CreateReferences(CreateReferencesBatchRequest request)
     {
-        var payload = request.References;
-        var response = _transport.PostAsync<BatchReference[], CreateReferencesBatchResponse[]>("/batch/references", payload).GetAwaiter().GetResult();
+	    var endpoint = request.ConsistencyLevel.HasValue ? "/batch/references?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/references";
+	    var response = _transport.PostAsync<BatchReference[], CreateReferencesBatchResponse[]>(endpoint, request.References).GetAwaiter().GetResult();
         return response;
     }
 
     public async Task<ApiResponse<CreateReferencesBatchResponse[]>> CreateReferencesAsync(CreateReferencesBatchRequest request, CancellationToken cancellationToken = default)
     {
-        var payload = request.References;
-        var response = await _transport.PostAsync<BatchReference[], CreateReferencesBatchResponse[]>("/batch/references", payload, cancellationToken).ConfigureAwait(false);
+	    var endpoint = request.ConsistencyLevel.HasValue ? "/batch/references?consistency_level=" + ConsistencyLevelJsonConverter.ToString(request.ConsistencyLevel.Value) :  "/batch/references";
+	    var response = await _transport.PostAsync<BatchReference[], CreateReferencesBatchResponse[]>(endpoint, request.References, cancellationToken).ConfigureAwait(false);
         return response;
     }
 
