@@ -13,31 +13,10 @@
 // limitations under the License.
 
 // ReSharper disable once CheckNamespace
-
 namespace SearchPioneer.Weaviate.Client;
 
-/// <summary>
-///     Backend
-/// </summary>
-public enum Backend
+public enum DistributionType
 {
-	/// <summary>
-	///     Use local filesystem
-	/// </summary>
-	Filesystem,
-
-	/// <summary>
-	///     Use AWS S3
-	/// </summary>
-	AmazonSimpleStorageService,
-
-	/// <summary>
-	///     Use GCS storage.
-	/// </summary>
-	GoogleCloudStorage,
-
-	/// <summary>
-	///     Use Azure storage.
-	/// </summary>
-	AzureStorage
+	LogNormal,
+	Normal
 }

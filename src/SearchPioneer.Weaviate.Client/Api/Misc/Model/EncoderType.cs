@@ -15,11 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
-public class PqConfig
+public enum EncoderType
 {
-	public bool? Enabled { get; set; }
-	public bool? BitCompression { get; set; }
-	public int? Segments { get; set; }
-	public int? Centroids { get; set; }
-	public Encoder? Encoder { get; set; }
+	Kmeans,
+	Tile
 }

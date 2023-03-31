@@ -574,7 +574,7 @@ public class SchemaTests : TestBase
 				DynamicEfMax = 500,
 				FlatSearchCutoff = 40000,
 				Distance = Distance.DotProduct,
-				Pq = new()
+				ProductQuantization = new()
 				{
 					Enabled = true,
 					BitCompression = true,
@@ -582,8 +582,8 @@ public class SchemaTests : TestBase
 					Centroids = 8,
 					Encoder = new()
 					{
-						Type = "tile",
-						Distribution = "normal"
+						Type = EncoderType.Tile,
+						Distribution = DistributionType.Normal
 					}
 				}
 			},
@@ -622,12 +622,12 @@ public class SchemaTests : TestBase
 			Assert.Equal(40000, weaviateClass.VectorIndexConfig.FlatSearchCutoff);
 			Assert.Equal(Distance.DotProduct, weaviateClass.VectorIndexConfig.Distance);
 
-			Assert.True(weaviateClass.VectorIndexConfig.Pq!.Enabled);
-			Assert.True(weaviateClass.VectorIndexConfig.Pq!.BitCompression);
-			Assert.Equal(4, weaviateClass.VectorIndexConfig.Pq!.Segments);
-			Assert.Equal(8, weaviateClass.VectorIndexConfig.Pq!.Centroids);
-			Assert.Equal("tile", weaviateClass.VectorIndexConfig.Pq!.Encoder!.Type);
-			Assert.Equal("normal", weaviateClass.VectorIndexConfig.Pq!.Encoder!.Distribution);
+			Assert.True(weaviateClass.VectorIndexConfig.ProductQuantization!.Enabled);
+			Assert.True(weaviateClass.VectorIndexConfig.ProductQuantization!.BitCompression);
+			Assert.Equal(4, weaviateClass.VectorIndexConfig.ProductQuantization!.Segments);
+			Assert.Equal(8, weaviateClass.VectorIndexConfig.ProductQuantization!.Centroids);
+			Assert.Equal(EncoderType.Tile, weaviateClass.VectorIndexConfig.ProductQuantization!.Encoder!.Type);
+			Assert.Equal(DistributionType.Normal, weaviateClass.VectorIndexConfig.ProductQuantization!.Encoder!.Distribution);
 
 			Assert.Equal(1, weaviateClass.ShardingConfig!.ActualCount);
 			Assert.Equal(128, weaviateClass.ShardingConfig.ActualVirtualCount);
