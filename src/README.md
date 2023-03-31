@@ -1,30 +1,20 @@
-[<img align="right" width="250" height="auto" src="https://searchpioneer.com/assets/svg/logos/logo.svg">](https://searchpioneer.com/)
+# Search Pioneer Weaviate .NET client
 
 Learn more about our services and expertise: [https://searchpioneer.com/](https://searchpioneer.com/)
 
-# Weaviate .NET client
-
 A Microsoft .NET native client for [Weaviate](https://weaviate.io/)
-
-## Build status
-
-![Tests status](https://github.com/searchpioneer/weaviate-dotnet-client/actions/workflows/tests.yml/badge.svg)
-
-## Packages
-
-The .NET assembly is published to NuGet under the package name [SearchPioneer.Weaviate.Client](http://nuget.org/packages/SearchPioneer.Weaviate.Client)
 
 ## Getting started
 
 ### Installing
 
-You can install `SearchPioneer.Weaviate.Client` from the package manager console:
+You can install SearchPioneer.Weaviate.Client from the package manager console:
 
     PM> Install-Package SearchPioneer.Weaviate.Client
 
 Alternatively, simply search for `SearchPioneer.Weaviate.Client` in the package manager UI.
 
-### Usage
+### Simple Usage
 
 ```csharp
 using SearchPioneer.Weaviate.Client;

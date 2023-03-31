@@ -73,6 +73,7 @@ public abstract class TestBase
 			InvertedIndexConfig = new() { IndexTimestamps = true },
 			Properties = properties
 		});
+
 		Assert.True(pizzaCreateStatus.HttpStatusCode == 200);
 
 		var soupCreateStatus = client.Schema.CreateSchemaClass(new(CLASS_NAME_SOUP)
