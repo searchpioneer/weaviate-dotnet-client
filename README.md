@@ -42,6 +42,8 @@ public class Main
 }
 ```
 
+For a better understanding of usage, please refer to the [API Integration Tests](https://github.com/searchpioneer/weaviate-dotnet-client/tree/main/tests-integration/SearchPioneer.Weaviate.Client.IntegrationTests/Api)
+
 ## Versioning
 
 The version of the `SearchPioneer.Weaviate.Client` should match the published Weaviate server version.
