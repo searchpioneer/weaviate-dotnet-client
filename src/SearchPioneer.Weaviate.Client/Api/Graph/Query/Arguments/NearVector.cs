@@ -13,26 +13,29 @@
 // limitations under the License.
 
 // ReSharper disable once CheckNamespace
+
 namespace SearchPioneer.Weaviate.Client;
+
+using System.Globalization;
 
 public class NearVector
 {
-    public float[]? Vector { get; set; }
-    public float? Certainty { get; set; }
-    public float? Distance { get; set; }
+	public float[]? Vector { get; set; }
+	public float? Certainty { get; set; }
+	public float? Distance { get; set; }
 
-    public override string ToString()
-    {
-        var arg = new HashSet<string>();
-        if (Vector != null)
-        {
-            var v = string.Join(",", Vector);
-            arg.Add($"vector: [{v}]");
-        }
+	public override string ToString()
+	{
+		var arg = new HashSet<string>();
+		if (Vector != null)
+		{
+			var v = string.Join(",", Vector.Select(p => p.ToString(CultureInfo.InvariantCulture)));
+			arg.Add($"vector: [{v}]");
+		}
 
-        if (Certainty != null) arg.Add($"certainty:{Certainty}");
-        if (Distance != null) arg.Add($"distance:{Distance}");
-        var s = string.Join(" ", arg.ToArray());
-        return $"nearVector:{{{s}}}";
-    }
+		if (Certainty != null) arg.Add($"certainty:{Certainty.Value.ToString(CultureInfo.InvariantCulture)}");
+		if (Distance != null) arg.Add($"distance:{Distance.Value.ToString(CultureInfo.InvariantCulture)}");
+		var s = string.Join(" ", arg.ToArray());
+		return $"nearVector:{{{s}}}";
+	}
 }

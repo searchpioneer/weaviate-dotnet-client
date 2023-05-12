@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class NearObject
 {
     public string? Id { get; set; }
@@ -27,8 +29,8 @@ public class NearObject
         var arg = new HashSet<string>();
         if (!string.IsNullOrEmpty(Id)) arg.Add($"id:\"{Id}\"");
         if (!string.IsNullOrEmpty(Beacon)) arg.Add($"beacon:\"{Beacon}\"");
-        if (Certainty != null) arg.Add($"certainty:{Certainty}");
-        if (Distance != null) arg.Add($"distance:{Distance}");
+        if (Certainty != null) arg.Add($"certainty:{Certainty.Value.ToString(CultureInfo.InvariantCulture)}");
+        if (Distance != null) arg.Add($"distance:{Distance.Value.ToString(CultureInfo.InvariantCulture)}");
         var s = string.Join(" ", arg.ToArray());
         return $"nearObject:{{{s}}}";
     }

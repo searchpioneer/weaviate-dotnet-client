@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class Ask
 {
     public string? Question { get; set; }
@@ -29,8 +31,8 @@ public class Ask
         var arg = new HashSet<string>();
         if (!string.IsNullOrEmpty(Question)) arg.Add($"question:\"{Question}\"");
         if (Properties is { Length: > 0 }) arg.Add($"properties: [{Properties.WrapDoubleQuoteAndJoinWithComma()}]");
-        if (Certainty != null) arg.Add($"certainty:{Certainty}");
-        if (Distance != null) arg.Add($"distance:{Distance}");
+        if (Certainty != null) arg.Add($"certainty:{Certainty.Value.ToString(CultureInfo.InvariantCulture)}");
+        if (Distance != null) arg.Add($"distance:{Distance.Value.ToString(CultureInfo.InvariantCulture)}");
         if (Autocorrect != null) arg.Add($"autocorrect:{Autocorrect.ToLower()}");
         if (Rerank != null) arg.Add($"rerank:{Rerank.ToLower()}");
         var s = string.Join(" ", arg.ToArray());

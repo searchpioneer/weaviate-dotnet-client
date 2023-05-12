@@ -23,6 +23,6 @@ public class GeoRange
     public override string ToString() =>
 	    Coordinates is { Latitude: { }, Longitude: { } }
 	    && Distance is { Max: { } }
-		    ? $"{{geoCoordinates:{Coordinates.ToString()},distance:{Distance.ToString()}}}"
+		    ? $"{{geoCoordinates:{Coordinates},distance:{Distance}}}"
 		    : string.Empty;
 }

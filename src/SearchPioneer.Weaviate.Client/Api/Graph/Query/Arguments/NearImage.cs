@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class NearImage
 {
     public string? Image { get; set; }
@@ -27,8 +29,8 @@ public class NearImage
         var fields = new HashSet<string>();
         var content = GetContent();
         if (!string.IsNullOrEmpty(content)) fields.Add($"image:\"{content}\"");
-        if (Certainty != null) fields.Add($"certainty:{Certainty}");
-        if (Distance != null) fields.Add($"distance:{Distance}");
+        if (Certainty != null) fields.Add($"certainty:{Certainty.Value.ToString(CultureInfo.InvariantCulture)}");
+        if (Distance != null) fields.Add($"distance:{Distance.Value.ToString(CultureInfo.InvariantCulture)}");
         var s = string.Join(" ", fields.ToArray());
         return $"nearImage:{{{s}}}";
     }

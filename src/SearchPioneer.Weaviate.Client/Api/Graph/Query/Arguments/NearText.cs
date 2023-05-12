@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class NearText
 {
     public string[]? Concepts { get; set; } // TODO! change to class with object equivalency for arrays and single items
@@ -28,8 +30,8 @@ public class NearText
     {
         var arg = new HashSet<string>();
         if (Concepts is { Length: > 0 }) arg.Add($"concepts: [{Concepts.WrapDoubleQuoteAndJoinWithComma()}]");
-        if (Certainty != null) arg.Add($"certainty:{Certainty}");
-        if (Distance != null) arg.Add($"distance:{Distance}");
+        if (Certainty != null) arg.Add($"certainty:{Certainty.Value.ToString(CultureInfo.InvariantCulture)}");
+        if (Distance != null) arg.Add($"distance:{Distance.Value.ToString(CultureInfo.InvariantCulture)}");
         if (MoveTo != null) arg.Add($"moveTo:{{{MoveTo}}}");
         if (MoveAwayFrom != null) arg.Add($"moveAwayFrom:{{{MoveAwayFrom}}}");
         if (Autocorrect != null) arg.Add($"autocorrect:{Autocorrect.ToLower()}");

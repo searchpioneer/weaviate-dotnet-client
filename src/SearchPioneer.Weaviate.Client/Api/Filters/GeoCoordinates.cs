@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class GeoCoordinates
 {
     public GeoCoordinates(float? latitude, float? longitude)
@@ -26,5 +28,5 @@ public class GeoCoordinates
     public float? Latitude { get; }
     public float? Longitude { get; }
 
-    public override string ToString() => $"{{latitude:{Latitude},longitude:{Longitude}}}";
+    public override string ToString() => $"{{latitude:{Latitude.Value.ToString(CultureInfo.InvariantCulture)},longitude:{Longitude.Value.ToString(CultureInfo.InvariantCulture)}}}";
 }

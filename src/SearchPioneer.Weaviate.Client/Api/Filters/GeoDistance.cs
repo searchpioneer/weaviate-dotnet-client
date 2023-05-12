@@ -15,9 +15,11 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class GeoDistance
 {
     public float? Max { get; set; }
 
-    public override string ToString() => $"{{max:{Max}}}";
+    public override string ToString() => $"{{max:{Max.Value.ToString(CultureInfo.InvariantCulture)}}}";
 }
