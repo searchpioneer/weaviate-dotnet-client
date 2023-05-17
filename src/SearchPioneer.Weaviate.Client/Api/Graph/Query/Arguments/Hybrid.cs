@@ -13,6 +13,9 @@
 // limitations under the License.
 
 // ReSharper disable once CheckNamespace
+
+using System.Globalization;
+
 namespace SearchPioneer.Weaviate.Client;
 
 public class Hybrid
@@ -28,10 +31,10 @@ public class Hybrid
         if (Vector != null)
         {
             var v = string.Join(",", Vector);
-            arg.Add($"vector: [{v}]");
+            arg.Add($"vector: [{v.ToString(CultureInfo.InvariantCulture)}]");
         }
 
-        if (Alpha != null) arg.Add($"alpha:{Alpha}");
+        if (Alpha != null) arg.Add($"alpha:{Alpha.Value.ToString(CultureInfo.InvariantCulture)}");
         var s = string.Join(" ", arg.ToArray());
         return $"hybrid:{{{s}}}";
     }
