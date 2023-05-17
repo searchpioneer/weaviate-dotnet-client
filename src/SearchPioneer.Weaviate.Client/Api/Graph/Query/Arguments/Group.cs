@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class Group
 {
     public GroupType? Type { get; set; }
@@ -24,7 +26,7 @@ public class Group
     {
         var arg = new HashSet<string>();
         if (Type != null) arg.Add($"type:{Type.Value.ToString("f").ToLower()}");
-        if (Force != null) arg.Add($"force:{Force}");
+        if (Force != null) arg.Add($"force:{Force.Value.ToString(CultureInfo.InvariantCulture)}");
         var s = string.Join(" ", arg.ToArray());
         return $"group:{{{s}}}";
     }

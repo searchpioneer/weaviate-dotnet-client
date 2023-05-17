@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class NearTextMoveParameters
 {
     public string[]? Concepts { get; set; }
@@ -25,7 +27,7 @@ public class NearTextMoveParameters
     {
         var arg = new HashSet<string>();
         if (Concepts is { Length: > 0 }) arg.Add($"concepts: [{Concepts.WrapDoubleQuoteAndJoinWithComma()}]");
-        if (Force != null) arg.Add($"force:{Force}");
+        if (Force != null) arg.Add($"force:{Force.Value.ToString(CultureInfo.InvariantCulture)}");
         if (Objects is { Length: > 0 })
         {
             var values = Objects.Select(o => o.ToString()).ToArray();

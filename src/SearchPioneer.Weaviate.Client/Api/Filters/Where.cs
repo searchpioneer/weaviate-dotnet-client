@@ -15,6 +15,8 @@
 // ReSharper disable once CheckNamespace
 namespace SearchPioneer.Weaviate.Client;
 
+using System.Globalization;
+
 public class Where
 {
     public Where[]? Operands { get; set; }
@@ -47,7 +49,7 @@ public class Where
         {
             if (Path is { Length: > 0 }) args.Add($"path:[{Path.WrapDoubleQuoteAndJoinWithComma()}]");
             if (ValueInt.HasValue) args.Add($"valueInt:{ValueInt}");
-            if (ValueNumber.HasValue) args.Add($"valueNumber:{ValueNumber}");
+            if (ValueNumber.HasValue) args.Add($"valueNumber:{ValueNumber.Value.ToString(CultureInfo.InvariantCulture)}");
             if (ValueBoolean.HasValue) args.Add($"valueBoolean:{ValueBoolean.Value.ToString().ToLower()}");
             if (ValueString != null)
             {
@@ -62,7 +64,7 @@ public class Where
             }
 
             if (ValueDate.HasValue) args.Add($"valueDate:\"{ValueDate.Value:o}\"");
-            if (ValueGeoRange != null) args.Add($"valueGeoRange:{ValueGeoRange}");
+            if (ValueGeoRange != null) args.Add($"valueGeoRange:{ValueGeoRange.ToString()}");
             if (Operator.HasValue) args.Add($"operator:{Operator}");
         }
 
