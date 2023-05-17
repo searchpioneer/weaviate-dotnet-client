@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Globalization;
 using Flurl.Http;
 using Xunit;
 
@@ -32,6 +33,17 @@ public abstract class TestBase
 	protected static readonly string SOUP_CHICKENSOUP_ID = "8c156d37-81aa-4ce9-a811-621e2702b825";
 	protected static readonly string SOUP_BEAUTIFUL_ID = "27351361-2898-4d1a-aad7-1ca48253eb0b";
 	protected readonly WeaviateClient Client = new(new("http", "localhost:8080", "my-secret-key"), new FlurlClient());
+
+	// Uncomment to try alternate seperators
+	// protected TestBase() =>
+	// 	Thread.CurrentThread.CurrentCulture = new CultureInfo(CultureInfo.CurrentCulture.Name)
+	// 	{
+	// 		NumberFormat =
+	// 		{
+	// 			NumberDecimalSeparator = ",",
+	// 			NumberGroupSeparator = "."
+	// 		}
+	// 	};
 
 	protected static void CreateWeaviateTestSchemaFood(WeaviateClient client)
 	{

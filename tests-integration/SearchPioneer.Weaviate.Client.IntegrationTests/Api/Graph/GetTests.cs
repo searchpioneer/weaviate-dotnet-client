@@ -389,8 +389,8 @@ public class GetTests : TestBase
 
 		foreach (var json in jsonArray)
 		{
-			var creationTimeUnix = jsonArray[0]!["_additional"]!["creationTimeUnix"]!;
-			var lastUpdateTimeUnix = jsonArray[0]!["_additional"]!["lastUpdateTimeUnix"]!;
+			var creationTimeUnix = json!["_additional"]!["creationTimeUnix"]!;
+			var lastUpdateTimeUnix = json!["_additional"]!["lastUpdateTimeUnix"]!;
 
 			var createdResult = Client.Graph.Get(new()
 			{
